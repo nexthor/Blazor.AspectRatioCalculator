@@ -1,9 +1,72 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Aspect Ratio Calculator</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Aspect Ratio Calculator</h1>
 
-Welcome to your new app.
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label">W1</label>
+                        <InputNumber Value="_w1" ValueExpression="(() => _w1)" ValueChanged="((int n) => OnWidth1Changed(n))" class="form-control" />
+                    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+                    <div class="col-6">
+                        <label class="form-label">W2</label>
+                        <InputNumber Value="_w2" ValueExpression="(() => _w2)" ValueChanged="((int n) => OnWidthChanged(n))" class="form-control" />
+                    </div>
+
+                    <div class="col-6">
+                        <label class="form-label">H1</label>
+                        <InputNumber Value="_h1" ValueExpression="(() => _h1)" ValueChanged="((int n) => OnHeigh1Changed(n))" class="form-control" />
+                    </div>
+
+                    <div class="col-6">
+                        <label class="form-label">H2</label>
+                        <InputNumber Value="_h2" ValueExpression="(() => _h2)" ValueChanged="((int n) => OnHeighChanged(n))" class="form-control" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Common ratios:</label>
+                    <InputSelect TValue="int" class="form-control" Value="_selectedRatio!.Id" ValueExpression="(() => _selectedRatio.Id)" ValueChanged="((int id) => OnRatioSelected(id))">
+                        @foreach(var ratio in CommonRatios)
+                        {
+                            <option value="@ratio.Id">@ratio.Width x @ratio.Height (@ratio.Description)</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="bg-white border d-flex justify-content-center align-items-center" style="width: 300px; height: @($"{CalculateAspectRatio(300)}px");">
+                    <span>example</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+
+        <h3>Instructions</h3>
+
+        <ul>
+            <li>Enter the values for the original width (W1) & original height (H1) on the left.</li>
+            <li>Enter either a new width (W2) or new height (H2) on the right to calculate the remaining value.</li>
+            <li>Change any of the values at any time, or <a href="javascript:void(0);" @onclick="ResetForm">reset them</a> to the starting values.</li>
+        </ul>
+
+        <h3>Formula</h3>
+        <p>Say you have a photo that is 1600 x 1200 pixels, but your blog only has space for a photo 400 pixels wide. To find the new height of your photo &mdash; while preserving the aspect ratio &mdash; you would need to do the following calculation:</p>
+
+        <p class="font-monospace">(original height / original width) x new width = new height</p>
+
+        <p class="font-monospace">(1200 / 1600) x 400 = 300</p>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <p class="fw-bold">Inspired on <a href="https://andrew.hedges.name/experiments/aspect_ratio/" target="_blank" class="text-danger">Andrew Hedges</a> Aspect Ratio Calculator</p>
+    </div>
+</div>
